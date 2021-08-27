@@ -1,3 +1,5 @@
+use warp::Filter;
+
 mod errors;
 mod filters;
 mod handlers;
@@ -6,6 +8,8 @@ mod models;
 
 #[tokio::main]
 async fn main() {
-    let handler = filters::swatch_gen();
-    warp::serve(handler).run(([127, 0, 0, 1], 3030)).await;
+    let swatch_gen = filters::swatch_gen();
+    let index = warp::path::end().map(|| "Swatcher");
+    let routes = warp::get().and(swatch_gen.or(index));
+    warp::serve(routes).run(([0, 0, 0, 0], 3030)).await;
 }
