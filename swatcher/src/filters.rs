@@ -8,6 +8,13 @@ pub fn swatch_gen() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rej
         .and_then(crate::handlers::swatch_gen)
 }
 
+pub fn swatch_gen_2() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+    warp::path!("swatch.png")
+        .and(warp::get())
+        .and(warp::query::<models::SwatchOptions>())
+        .and_then(crate::handlers::swatch_gen)
+}
+
 #[cfg(test)]
 mod tests {
     use crate::models::{self, SwatchOptions};
