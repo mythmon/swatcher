@@ -10,8 +10,11 @@ pub async fn swatch_gen(options: models::SwatchOptions) -> Result<impl warp::Rep
         .map_err(warp::reject::custom::<Error>)?;
 
     let mut response = Response::new(body.into());
-    response
-        .headers_mut()
-        .insert(header::CONTENT_TYPE, HeaderValue::from_static("image/png"));
+    let headers_mut = response.headers_mut();
+    headers_mut.insert(header::CONTENT_TYPE, HeaderValue::from_static("image/png"));
+    headers_mut.insert(
+        header::CACHE_CONTROL,
+        HeaderValue::from_static("max-age=2419200,public,immutable"),
+    );
     Ok(response)
 }
