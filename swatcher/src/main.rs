@@ -12,5 +12,6 @@ async fn main() {
     let swatch_gen_png = filters::swatch_gen_2();
     let index = warp::path::end().map(|| "Swatcher");
     let routes = warp::get().and(swatch_gen.or(swatch_gen_png).or(index));
+    println!("Listening on http://localhost:3030");
     warp::serve(routes).run(([0, 0, 0, 0], 3030)).await;
 }

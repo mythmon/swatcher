@@ -6,8 +6,7 @@ use warp::Rejection;
 
 pub async fn swatch_gen(options: models::SwatchOptions) -> Result<impl warp::Reply, Rejection> {
     let mut body = Vec::new();
-    crate::image::gen_swatch(&mut body, options.width(), options.height(), options.color)
-        .map_err(warp::reject::custom::<Error>)?;
+    crate::image::gen_swatch(&mut body, options).map_err(warp::reject::custom::<Error>)?;
 
     let mut response = Response::new(body.into());
     let headers_mut = response.headers_mut();

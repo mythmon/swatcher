@@ -4,7 +4,9 @@ use warp::reject::Reject;
 #[derive(Debug, Error)]
 pub enum Error {
     #[error("An error while encoding the image")]
-    Image(#[from] png::EncodingError),
+    Encoding(#[from] png::EncodingError),
+    #[error("An unexpected color format was passed")]
+    ColorFormat,
 }
 
 impl Reject for Error {}
